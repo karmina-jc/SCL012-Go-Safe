@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+<<<<<<< HEAD
     "bootstrap": "^4.4.1",
     "firebase": "^7.13.1",
     "react": "^16.13.0",
@@ -13,6 +14,13 @@
     "react-firebase-auth": "^1.0.3",
     "react-scripts": "3.4.0",
     "react-with-firebase-auth": "^1.3.2"
+=======
+    "leaflet": "^1.6.0",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-leaflet": "^2.6.3",
+    "react-scripts": "3.4.0"
+>>>>>>> e94648ad28f3e077221620796aac54d4df26e945
   },
   "scripts": {
     "start": "react-scripts start",
