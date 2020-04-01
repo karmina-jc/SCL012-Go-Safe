@@ -1,0 +1,36 @@
+
+.orderPlace{
+  flex-direction: column;
+
+}
+
+
+.btn{
+  border-radius: 20px;
+}
+
+.conditions{
+font-size: x-small;
+
+}
+
+.signUpPage{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background: white;
+}
+
+
+input{
+
+  border-radius: 20px;
+  border: 1px solid #3AAA35;
+}
+
+#name{
+margin-top: 5%;
+
+}

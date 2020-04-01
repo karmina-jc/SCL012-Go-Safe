@@ -25,7 +25,7 @@ export class DisplayMapClass extends React.Component {
       {
         // This map is centered over Europe
         center: { lat: 50, lng: 5 },
-        zoom: 4,
+        zoom: 10,
         pixelRatio: window.devicePixelRatio || 1
       }
     );
