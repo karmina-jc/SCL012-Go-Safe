@@ -1,11 +1,11 @@
 import React from 'react';
-import logoPequeño from '../pictures/logoPequeño.svg';
-import misRutas from '../pictures/misRutas.svg';
-import newRoute from '../pictures/newRoute.svg';
-import routeIcon from '../pictures/routeIcon.svg';
-import profile from '../pictures/profile.svg';
-import myrouteIcon from '../pictures/myrouteIcon.svg';
-import shareRoute from '../pictures/shareRoute.svg';
+import logoPequeño from '../templates/pictures/logoPequeño.svg';
+import misRutas from '../templates/pictures/misRutas.svg';
+import newRoute from '../templates/pictures/newRoute.svg';
+import routeIcon from '../templates/pictures/routeIcon.svg';
+import profile from '../templates/pictures/profile.svg';
+import myrouteIcon from '../templates/pictures/myrouteIcon.svg';
+import shareRoute from '../templates/pictures/shareRoute.svg';
 import './homeRoutes.css'
 
 

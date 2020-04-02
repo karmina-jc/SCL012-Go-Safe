@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 // import Button from '../components/button';
-import Navbar from '../Components/navbar';
+import Navbar from '../templates/navbar';
 import { useFirebaseApp} from 'reactfire';
 import './signIn.css'
 
