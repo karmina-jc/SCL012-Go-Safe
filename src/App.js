@@ -1,17 +1,43 @@
-import React, { Fragment } from 'react';
-import './App.css';
-//import CreateRoute from './components/CreateRoute'
-import { DisplayMapClass } from './components/DisplayMapClass';
+
+import React from 'react';
+//import DisplayMapClass from './components/DisplayMapClass.js';
+//import Button from './components/button';
+import Home from  './templates/home';
+//import Form from './components/Form';
+//import SignUp from './views/signUp'
+//import SignUp from './templates/signUp'
+import SignIn from '../src/templates/signIn';
+//import SignUp from './templates/signUp';
+//import MyRoutes from './templates/myRoutes';
+//import HomeRoutes from './templates/homeRoutes'
+//import Login from './templates/login';
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom"; 
+import CreateRoute from './components/CreateRoute';
 
 
-const App = () => {
 
-  return (
-    <Fragment>
-       <DisplayMapClass />
+function App() {
+  return (    
+  <Router>
+      <Switch>
+        <Route exact path="/">
+          <Home />
+          <CreateRoute />
+        </Route>
+        <Route path="/Home">
+        </Route>
+      </Switch>
+      <SignIn />
+  </Router>
     
-    </Fragment> 
-   );
-}
-  
-export default App;
+    );
+  }
+
+
+  export default App;
+

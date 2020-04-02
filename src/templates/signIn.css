@@ -1,0 +1,40 @@
+.home {
+  
+  margin: 0px;
+}
+
+
+.orderPlace{
+  flex-direction: column;
+
+}
+
+
+.facebook
+{
+background-color: #0154B9;
+
+}
+
+.btn{
+  border-radius: 20px;
+  
+
+  } 
+
+.signInPage{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background: white;
+}
+
+
+input{
+
+  border-radius: 20px;
+  border: 1px solid #3AAA35;
+  
+}

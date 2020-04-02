@@ -1,0 +1,75 @@
+.Place1
+{
+background-color: #E0E0E0;
+width: 50%;
+text-align-last: center;
+padding-top: 2%;
+}
+
+.Place2
+{
+  background-color: #F2F2F2;
+  width: 50%;
+  margin: 0;
+  text-align-last: center;
+  padding-top: 2%;
+}
+
+#motherH
+{
+  padding-top: 20%;
+  align-self: flex-end;
+}
+
+#motherH > p 
+{
+  padding-bottom: 5px;
+} 
+
+#motherH > img
+{
+padding-bottom: 5px;
+}
+
+.typeRoute
+{
+display: flex;
+flex-flow: wrap;
+height: 50%;
+}
+
+.imgWork{
+ padding-bottom: 10px;
+  padding-top: 2px;
+
+}
+
+p{
+margin-bottom: 5px;
+}
+
+.route{
+display: flex;
+}
+
+.headRoute
+{
+display: flex;
+place-content: space-between;
+margin:3%;
+
+}
+
+
+.rectangleG
+{
+margin-top: 3%;
+}
+
+.grayPlace{
+  background-color: #F2F2F2;
+  margin-top: 7%;
+  padding-top: 2%;
+  padding-bottom: 3%;
+  text-align: center;
+}
