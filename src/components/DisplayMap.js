@@ -7,14 +7,22 @@ const hereAcces = {
   id: 'BCARpYuX4JTbLbCE7nfW',
   code: 'UsxeE6O5hDR3RWxAwgjnDA'
 }
+let H = window.H;
+let platform = new H.service.Platform({
+  apikey: hereAcces.key
+});
 
+let defaultLayers = platform.createDefaultLayers();
 
 class DisplayMap extends React.Component {
-   mapRef = React.createRef();
+  captureRef = React.createRef();
+  mapRef = React.createRef();
    
    constructor(props) {
     super(props);
     this.newRoute= this.newRoute.bind(this);
+    this.newRoute= this.snapshot.bind(this)
+    
     this.state = {
 
       map: null,
@@ -26,15 +34,8 @@ class DisplayMap extends React.Component {
 
   componentDidMount() {
 
-    const H = window.H;
-    const platform = new H.service.Platform({
-      apikey: hereAcces.key
-    });
-
-    const defaultLayers = platform.createDefaultLayers();
-
     // Crea una instancia del mapa
-    const map = new H.Map(
+    let map = new H.Map(
       this.mapRef.current,
       defaultLayers.vector.normal.map, {
         // Este mapa está centrado en Europa
@@ -60,7 +61,6 @@ class DisplayMap extends React.Component {
         console.log(lineCoordinates)
        
         this.setState({tapPosition: [...this.state.tapPosition, tapCoordinates]})
-
         this.setState({polyline: [...this.state.polyline, lineCoordinates]})
 
         let icon = new H.map.Icon(gsIcon)        
@@ -69,18 +69,15 @@ class DisplayMap extends React.Component {
 
         if (this.state.polyline.length > 0) {
 
-          let linestring =  new H.geo.LineString();
-          
+          let linestring =  new H.geo.LineString();          
           this.state.polyline.forEach(e => {
             return linestring.pushPoint(e);
           })
     
           const routeLine = new H.map.Polyline(linestring, {
           style: { strokeColor: 'green', lineWidth: 4 }});
-
           map.addObject(routeLine)
         } 
-
         console.log(this.state.polyline)
         console.log(this.state.tapPosition)
 
@@ -93,13 +90,27 @@ class DisplayMap extends React.Component {
 
     // Cree los componentes de la interfaz de usuario predeterminados para permitir que el usuario interactúe con ellos
     // Esta variable no se usa
-    const ui = H.ui.UI.createDefault(map, defaultLayers);
+    let ui = H.ui.UI.createDefault(map, defaultLayers);
 
     this.setState({
       map: {map}
     });
 
   }  
+
+    async snapshot (resultContainer, map, ui) {
+    
+        await map.capture(function(canvas) {
+          if (canvas) {
+            resultContainer.innerHTML = '';
+            resultContainer.appendChild(canvas);
+          } else {
+            // For example when map is in Panorama mode
+            resultContainer.innerHTML = 'Capturing is not supported';
+          }
+        }, [ui], 50, 50, 500, 200);      
+
+    }
 
     async newRoute() {
       
@@ -114,23 +125,41 @@ class DisplayMap extends React.Component {
       paramURL = paramURL.replace(/\}/g, '%7D') 
     
       let dataOverlay = await fetch (paramURL)
-      let data = dataOverlay.json()      
-      .then(() => {
-        let twaypoint0 = this.state.tapPosition[0],
-        twaypoint1 = this.state.tapPosition[this.state.tapPosition.length-1],
-        toverlays = 'OVERLAYTIER',
-        tmode = "fastest;pedestrian;",
-        turl = `http://cre.api.here.com/2/calculateroute.json?waypoint0=${twaypoint0}&waypoint1=${twaypoint1}&overlays=${toverlays}&mode=${tmode}&app_id=${hereAcces.id}&app_code=${hereAcces.code}&storage=readonly`;
-
-        console.log(data)
+      let data = await dataOverlay.json()
+      console.log(data)      
       
-      })
+       let map = new H.Map(
+        this.mapRef.current,
+        defaultLayers.vector.normal.map, {
+          // Este mapa está centrado en Europa
+          center: {
+            lat:  -33.4569397,
+            lng: -70.6482697
+          },
+          zoom: 13,
+          pixelRatio: window.devicePixelRatio || 1
+        }
+      );       
+
+        let ui = H.ui.UI.createDefault(map, defaultLayers);
+        // Step 1: initialize communication with the platform
+        let mapContainer = this.mapRef.current
+
+        // add a resize listener to make sure that the map occupies the whole container
+        window.addEventListener('resize', () => map.getViewPort().resize());
+        // Step 4: Create the default UI
+
+        // Step 6: Create "Capture" button and place for showing the captured area
+        let resultContainer = this.captureRef.current
+
+        this.snapshot(resultContainer, this.state.map, ui)
+
     }
-    
+        
   componentWillUnmount() {
     // Limpieza después del mapa para evitar pérdidas de memoria cuando este componente sale de la página
     this.state.map.dispose();
-    
+
   }
  
   render() {
@@ -146,9 +175,18 @@ class DisplayMap extends React.Component {
       }
       >       
       </div>
+      <div 
+      ref = {this.captureRef}
+      style = {
+        {
+          height: "300px"
+        }
+      }
+      >       
+      </div>
       <button
         onClick={this.newRoute}
-        >Crear Ruta
+        >Guardar Ruta
       </button>
     </div>
     );
