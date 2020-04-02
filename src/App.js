@@ -1,13 +1,14 @@
 import React, { Fragment } from 'react';
 import './App.css';
-import CreaateRoute from './components/CreateRoute'
+//import CreateRoute from './components/CreateRoute'
+import { DisplayMapClass } from './components/DisplayMapClass';
 
 
 const App = () => {
 
   return (
     <Fragment>
-      <CreaateRoute />
+       <DisplayMapClass />
     
     </Fragment> 
    );
