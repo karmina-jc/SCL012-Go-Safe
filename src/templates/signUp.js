@@ -1,23 +1,39 @@
-import React from 'react';
-//import Button from '../components/button';
-import Navbar from '../Components/navbar';
-import Form from '../Components/form';
-import facebook from '../pictures/facebook.svg';
-import './signUp.css'
+import React, { useState } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import Navbar from '../templates/navbar';
+//import facebook from '../pictures/facebook.svg';
+import './signUp.css';
+import 'firebase/auth';
+import { useFirebaseApp} from 'reactfire';
 
 function SignUp(props) {
+  const [ email, setEmail ] = useState('');
+  const [ password, setPassword ] = useState('');
+  
+  const firebase = useFirebaseApp();
+  
+
+  const submit = async ()=>{
+    await  firebase.auth().createUserWithEmailAndPassword(email,password);
+  } 
+  
+  
   return (
   <div className="signUpPage">
     <Navbar/>
       <div className="orderPlace" >
-        <button  className="btn btn-primary"><img src={facebook} alt="facebookLogo"></img>  Registrate con Facebook</button> 
-        <input type="text" id="name" placeholder="Nombre y Apellido (requerido) " className="inputLogin" required/>
-         <Form />
-      </div>
-    <p className="conditions"> AL REGISTRARTE ESTAS DE ACUERDO CON LOS TÉRMINOS Y CONDICIONES </p>
-    <button  className="btn btn-success">Regístrate</button> 
+        
+        <label htmlFor="email"> Correo Electrónico</label>
+        <input type="email" id="email" onChange={ (ev)=> setEmail(ev.target.value) }   />
+        <label htmlFor="password">Contraseña</label>
+        <input type="password" id="password" onChange={ (ev)=> setPassword(ev.target.value) } />
+              
+      
+    <p className="conditions"> AL REGISTRARTE, ESTAS DE ACUERDO CON LOS TÉRMINOS Y CONDICIONES </p>
+    <button  className="btn btn-success"onClick={submit}><Link to="/signin">Registrarse</Link></button> 
+    </div>
   </div>
   )
 }
 
-export default SignUp;
+export default withRouter(SignUp);

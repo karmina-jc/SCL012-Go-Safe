@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Map, TileLayer, Marker, Polyline } from 'react-leaflet'
+import { Icon } from 'leaflet'
+import gsIcon from './img/GoSafe-icon.png'
+
 
 
 const hereAcces = {
@@ -7,6 +10,11 @@ const hereAcces = {
   id: 'BCARpYuX4JTbLbCE7nfW',
   code: 'UsxeE6O5hDR3RWxAwgjnDA'
 }
+
+const goSafeIcon = new Icon({
+  iconUrl: "./img/GoSafe-icon2.svg",
+  iconSize: [25, 25]
+})
 
 class CreateRoute extends Component {
   constructor(props) {
@@ -16,9 +24,7 @@ class CreateRoute extends Component {
     this.state = {
 
       tapPosition:[],
-      markerPosition: {
-        lat:null,
-        lng:null},
+      markerPosition: [],
       polyline:[]
     }
   }
@@ -26,20 +32,30 @@ class CreateRoute extends Component {
   handleClick(event) {
     //console.log(event.latlng.lat, event.latlng.lng)
     let position = [event.latlng.lat, event.latlng.lng]
-    console.log (position)
     this.setState({tapPosition: [...this.state.tapPosition, position]}) 
+        
+    let mPosition = {lat: event.latlng.lat, lng: event.latlng.lng}
+    this.setState({...this.state.polyline, markerPosition: mPosition})
     
-    let polyPosition = {lat:event.latlng.lat, lng:event.latlng.lng}
-    this.setState({polyline: [...this.state.polyline, polyPosition]})
-
-    let latPosition = event.latlng.lat
-    let lngPosition = event.latlng.lng
-    this.setState({markerPosition: {lat: latPosition, lng: lngPosition}})
-
     console.log(this.state.markerPosition)
   }
 
-  async createPolyline (url){
+  
+  async createPolyline(url){
+
+    const data = await fetch(url).then(res => res.json())
+    console.log(data)
+
+    const dataShape = data.response.route[0].leg[0].link;
+    for (let index = 0; index < dataShape.length; index++) {
+      for (let i = 0; i <= (dataShape[index].shape.length)-2; i ++) {
+        
+        let shapePolyline = {lat: dataShape[index].shape[i], lng: dataShape[index].shape[i+1]};
+        this.setState({polyline: [...this.state.polyline, shapePolyline]})
+      }
+    } 
+
+    console.log(this.state.polyline)
     
   }
 
@@ -57,10 +73,15 @@ class CreateRoute extends Component {
 
     console.log(paramURL)
 
-    const data = await fetch (paramURL).then(res => res.json())
-    console.log(data)
-
-
+    await fetch (paramURL).then(res => res.json()).then(() => {
+      let twaypoint0 = this.state.tapPosition[0],
+      twaypoint1 = this.state.tapPosition[this.state.tapPosition.length-1],
+      toverlays = 'OVERLAYTIER',
+      tmode = "fastest;pedestrian;",
+      turl = `http://cre.api.here.com/2/calculateroute.json?waypoint0=${twaypoint0}&waypoint1=${twaypoint1}&overlays=${toverlays}&mode=${tmode}&app_id=${hereAcces.id}&app_code=${hereAcces.code}&storage=readonly`;
+      
+      this.createPolyline(turl)      
+    })
   }
 
   render() {
@@ -75,20 +96,26 @@ class CreateRoute extends Component {
           onClick={this.handleClick}          
           >           
             <TileLayer
-              attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-              url="https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png"
+              attribution="&copy; HERE 2020"
+              url={`https://2.base.maps.api.here.com/maptile/2.1/maptile/newest/reduced.day/{z}/{x}/{y}/512/png8?app_id=${hereAcces.id}&app_code=${hereAcces.code}&ppi=320`}
             />
+                        
             {this.state.polyline.length > 0 && 
-               
-             <Polyline 
-              positions= {this.state.polyline}
-              color='green'
-              weight={3}
-              > 
-              <Marker position={center} />
-              
+              <div>             
+              <Polyline 
+                positions= {this.state.tapPosition}
+                color='green'
+                weight={3}
+              >
               </Polyline> 
+              <Marker 
+                position={this.state.markerPosition}
+                Icon={gsIcon}
+                iconSize={[25, 25]}               
+               />
+              </div> 
             }
+            
                 
         </Map>
         <button onClick={this.newRoute}>Crear Ruta</button>

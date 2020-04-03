@@ -30,7 +30,44 @@ background-color: #0154B9;
   height: 100vh;
   background: white;
 }
+.home {
+  
+  margin: 0px;
+}
 
+
+.orderPlace{
+  flex-direction: column;
+  display: flex;
+  margin-top: 20%;
+
+}
+
+
+
+.btn{
+  border-radius: 20px;
+  margin: 10%;
+  
+
+  } 
+
+.signInPage{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background: white;
+}
+
+
+input{
+
+  border-radius: 20px;
+  border: 1px solid #3AAA35;
+  
+}
 
 input{
 

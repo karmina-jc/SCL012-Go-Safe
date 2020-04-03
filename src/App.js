@@ -1,43 +1,32 @@
-
 import React from 'react';
-//import DisplayMapClass from './components/DisplayMapClass.js';
-//import Button from './components/button';
+import './App.css';
 import Home from  './templates/home';
-//import Form from './components/Form';
-//import SignUp from './views/signUp'
-//import SignUp from './templates/signUp'
-import SignIn from '../src/templates/signIn';
-//import SignUp from './templates/signUp';
-//import MyRoutes from './templates/myRoutes';
-//import HomeRoutes from './templates/homeRoutes'
+import MyRoutes from './templates/myRoutes';
+import HomeRoutes from './templates/homeRoutes';
+import SignUp from './templates/signUp'
+import SignIn from './templates/signIn';
 //import Login from './templates/login';
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom"; 
-import CreateRoute from './components/CreateRoute';
-
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import DisplayMap from './components/DisplayMap';
 
 
 function App() {
-  return (    
-  <Router>
-      <Switch>
-        <Route exact path="/">
-          <Home />
-          <CreateRoute />
-        </Route>
-        <Route path="/Home">
-        </Route>
+  return (
+   <Router>
+    <div>
+      <DisplayMap />
+      <Switch>        
+        <Route path="/signin" component={SignIn}/>  
+        <Route path="/signup" component={SignUp}/>
+        <Route path="/myroutes" exact component={MyRoutes}/>
+        <Route path="/homeroutes" exact component={HomeRoutes}/>
+        <Route path="/" exact component={Home}/>         
       </Switch>
-      <SignIn />
-  </Router>
+    </div>  
+   </Router>
+  );
     
-    );
-  }
+}
 
-
-  export default App;
-
+export default App;

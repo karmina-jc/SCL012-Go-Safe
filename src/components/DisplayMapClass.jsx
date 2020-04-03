@@ -1,73 +1,31 @@
 import React, { Component } from 'react';
 
 createRoute = () => {
+  const data = await fetch(url).then(res => res.json())
+  console.log(data)
 
-  let shape = this.state.tapPosition
-  let overlayName = 'OVERLAYTIER'
-  let app_id = "BCARpYuX4JTbLbCE7nfW"
-  let app_code = "UsxeE6O5hDR3RWxAwgjnDA"
-  let paramURL = `http://cre.api.here.com/2/overlays/upload.json?map_name=${overlayName}&overlay_spec=[{"op":"override","shape":[${shape}],"layer":"LINK_ATTRIBUTE_FCN","data":{"VEHICLE_TYPES":"0"}}]&storage=readonly&app_id=${app_id}&app_code=${app_code}`
+  let route, routeShape;
 
-  paramURL = paramURL.replace(/\[/g, '%5B')
-  paramURL = paramURL.replace(/\]/g, '%5D')
-  paramURL = paramURL.replace(/\{/g, '%7B')
-  paramURL = paramURL.replace(/\}/g, '%7D')
+  if (data.response.route) {
+  // Pick the first route from the response:
+  route = data.response.route[0];
+  // Pick the route's shape:
+  routeShape = route.leg[0];
 
-  console.log(paramURL)
+  for (let index = 0; index < routeShape.link.length; index++) {
+    // console.log(routeShape.link[index].shape.length)
+    for (let i = 0; i <= (routeShape.link[index].shape.length)-2; i ++) {
+      // console.log(routeShape.link[index].shape[i])
+      // console.log(routeShape.link[index].shape[i+1])
+      let polylineShape = (routeShape.link[index].shape[i],routeShape.link[index].shape[i+1] );
+      i++;
 
-  fetch(paramURL)
-  .then(response => response.json())
-  .then(()=> {
-    let twaypoint0 = this.state.tapPosition[0],
-    twaypoint1 = this.state.tapPosition[this.state.tapPosition.length],
-    toverlays = 'OVERLAYTIER',
-    tmode = "fastest;pedestrian;",
-    turl = `http://cre.api.here.com/2/calculateroute.json?waypoint0=${twaypoint0}&waypoint1=${twaypoint1}&overlays=${toverlays}&mode=${tmode}&app_id=BCARpYuX4JTbLbCE7nfW&app_code=UsxeE6O5hDR3RWxAwgjnDA}&storage=readonly`;
+      this.setState({polyline: [...this.state.polyline, polylineShape]})
+    }
+  } 
+  console.log(this.state.polyline)
 
-    fetch(turl)
-    .then(response => response.json())
-    .then(response => {
-        console.log(response);
-        let route, routeShape, linestring;
-
-        if (response.response.route) {
-        // Pick the first route from the response:
-        route = response.response.route[0];
-        // Pick the route's shape:
-        routeShape = route.leg[0];
-        
-        // Create a linestring to use as a point source for the route line
-        linestring = new H.geo.LineString();
-    
-        for (let index = 0; index < routeShape.link.length; index++) {
-          // console.log(routeShape.link[index].shape.length)
-          for (let i = 0; i <= (routeShape.link[index].shape.length)-2; i ++) {
-            // console.log(routeShape.link[index].shape[i])
-            // console.log(routeShape.link[index].shape[i+1])
-            linestring.pushLatLngAlt(routeShape.link[index].shape[i],routeShape.link[index].shape[i+1] );
-            i++;
-          }
-        }   
-    
-        // Create a polyline to display the route:
-        let routeLine1 = new H.map.Polyline(linestring, {
-        style: { strokeColor: 'green', lineWidth: 5 }
-        });
-        
-        
-        // Add the route polyline and the two markers to the map:
-        map.addObject(routeLine1);
-        
-        // Set the map's viewport to make the whole route visible:
-        // map.getViewModel().setLookAtData({bounds: routeLine1.getBoundingBox()});
-        }
-        }, error => {
-        console.log(error);
-        });
-        //draw polyline using shape in response
-        }, error => {
-        console.log(error);
-      })
+  }
 
 }
 
@@ -76,7 +34,7 @@ class DisplayMapClass extends Component {
     super(props);
     this.createRoute = this.createRoute.bind(this);
   }
-
+  captureRef = React.createRef();
   mapRef = React.createRef();
   state = {
     map: null,
@@ -106,22 +64,39 @@ class DisplayMapClass extends Component {
       }
     );
 
-    //crea toma valores de geolocalizacion y crea marker en pantalla
-    // Add event listener:
- 
-    map.addEventListener('tap', (event) => {
-          let position = map.screenToGeo(
-            event.currentPointer.viewportX,
-            event.currentPointer.viewportY
-          )
-          const marker = new H.map.Marker(position)
-          map.addObject(marker)
-          this.setState({tapPosition: [...this.state.tapPosition, [position]]
-          })
-      });
+    function capture(resultContainer, map, ui) {
+      // Capturing area of the map is asynchronous, callback function receives HTML5 canvas
+      // element with desired map area rendered on it.
+      // We also pass an H.ui.UI reference in order to see the ScaleBar in the output.
+      // If dimensions are omitted, whole veiw port will be captured
+      map.capture(function(canvas) {
+        if (canvas) {
+          resultContainer.innerHTML = '';
+          resultContainer.appendChild(canvas);
+        } else {
+          // For example when map is in Panorama mode
+          resultContainer.innerHTML = 'Capturing is not supported';
+        }
+      }, [ui], 50, 50, 500, 200);
+    }
+    
+  
+    // Step 1: initialize communication with the platform
+    let mapContainer = this.mapRef.current
 
-    // MapEvents habilita el sistema de eventos
-    // Behavior implementa interacciones predeterminadas para pan / zoom (también en entornos táctiles móviles)
+    // add a resize listener to make sure that the map occupies the whole container
+    window.addEventListener('resize', () => map.getViewPort().resize());
+ // Step 4: Create the default UI
+
+    // Step 6: Create "Capture" button and place for showing the captured area
+    let resultContainer = this.captureRef.current
+     
+    // Step 7: Handle capture button click event
+    captureBtn.onclick = function() {
+      capture(resultContainer, map, ui);
+    };        
+
+
     // Esta variable no se usa y está presente con fines explicativos
     const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 
@@ -156,6 +131,16 @@ class DisplayMapClass extends Component {
       }
       > 
       </div>
+      <div ref = {
+        this.captureRef
+      }
+      style = {
+        {
+          height: "300px"
+        }
+      }
+      > 
+      </div>      
       <button onClick={createRoute()}>Trazar Ruta</button>
       </div>
     );

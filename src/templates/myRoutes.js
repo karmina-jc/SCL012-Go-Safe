@@ -1,18 +1,19 @@
 import React from 'react';
-import logoPequeño from '../pictures/logoPequeño.svg';
-import myHome from '../pictures/myHome.svg';
-import beachHouse from '../pictures/beachHouse.svg';
-import work from '../pictures/work.svg';
-import routeIcon from '../pictures/routeIcon.svg';
-import motherhIcon from '../pictures/motherhIcon.svg';
-import profile from '../pictures/profile.svg';
-import myrouteIcon from '../pictures/myrouteIcon.svg';
-import shareRoute from '../pictures/shareRoute.svg';
+import { withRouter } from 'react-router-dom';
+import logoPequeño from './pictures/logoPequeño.svg';
+import myHome from './pictures/myHome.svg';
+import beachHouse from './pictures/beachHouse.svg';
+import work from './pictures/work.svg';
+import routeIcon from './pictures/routeIcon.svg';
+import motherhIcon from './pictures/motherhIcon.svg';
+import profile from './pictures/profile.svg';
+import myrouteIcon from './pictures/myrouteIcon.svg';
+import shareRoute from './pictures/shareRoute.svg';
 import './myRoutes.css'
 
 //import './homeRoutes.css'
 
-function MyRoutes(props) {
+function MyRoutes() {
   return (
   
   
@@ -46,16 +47,9 @@ function MyRoutes(props) {
           <img  src={myrouteIcon} alt="Icono de mis rutas" ></img>
           <img  src={shareRoute} alt="Icono de compartir" ></img>
         </div>
-
-       
-
   </div>
-
-   
   
-
-   
   )
 }
 
-export default MyRoutes;
+export default withRouter(MyRoutes);
