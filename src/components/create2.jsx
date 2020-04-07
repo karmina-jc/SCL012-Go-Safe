@@ -17,8 +17,6 @@ const CreateDos = () => {
         setPosition(ruta)
     }
 
-
-        
     return(
         <div>
             <h1>Funciona</h1>

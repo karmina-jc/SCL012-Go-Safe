@@ -1,42 +1,42 @@
-.orderPlace{
-  flex-direction: column;
-  display: flex;
-  margin-top: 20%;
-
-}
-
-
-.btn{
-  border-radius: 20px;
-  margin: 4%;
-}
+@media screen and (max-width: 800px) {
+  
+  .signUpPage{
+    background: white;
+    text-decoration: none;
+    text-align: center;
+  }
 
 .conditions{
-font-size: x-small;
-
+  font-size: 70%;
+  text-align: center;
+  flex-direction: column;
+  padding: 5% 5% 5% 5%;
+  margin: auto 5% 5% 5%;
+ 
 }
 
-.signUpPage{
+.email2 {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-  background: white;
+  border: 1px solid rgb(134, 134, 134);
+  margin: 5% 5% 5% 25%;
+  width: 50%;
+  text-align: center;
+  align-content: center;
+  justify-content: center;
+  text-decoration: none;
 }
 
-
-input{
-
-  border-radius: 20px;
+.buttonGreen {
   border: 1px solid #3AAA35;
+	padding: 10px 20px;
+  text-align: center;
+  overflow: visible;
+	margin: 50px;
+	border-radius: 15px;
+	
 }
 
-#name{
-margin-top: 5%;
-}
 
-label{
-text-align: center;
+ }
 
-}

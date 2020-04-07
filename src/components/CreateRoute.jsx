@@ -3,6 +3,7 @@ import { Map, TileLayer, Marker, Polyline } from 'react-leaflet'
 import { Icon } from 'leaflet'
 import gsIcon from './img/GoSafe-icon.png'
 
+//import Capture from './Capture'
 
 
 const hereAcces = {
@@ -91,7 +92,9 @@ class CreateRoute extends Component {
     return (
       <div>
         <Map
-          center={center}
+
+         center={center}
+
           zoom={zoom}
           onClick={this.handleClick}          
           >           
@@ -115,8 +118,7 @@ class CreateRoute extends Component {
                />
               </div> 
             }
-            
-                
+               
         </Map>
         <button onClick={this.newRoute}>Crear Ruta</button>
       </div>
@@ -125,3 +127,5 @@ class CreateRoute extends Component {
 }
 
 export default CreateRoute;
+
+

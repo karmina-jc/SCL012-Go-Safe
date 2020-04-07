@@ -1,8 +1,10 @@
 import React from 'react';
-import { Link, withRouter } from "react-router-dom";
+
+import { withRouter } from "react-router-dom";
 import logoApp from  './pictures/logoApp.png';
 //import Button from '../components/button';
 import './home.css'
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 
 
 const Home = () => {
@@ -11,8 +13,12 @@ const Home = () => {
   <div className="homeContent">
     <img src={logoApp} alt="logo" className="logo"></img>
     <div className="homeTittle">
-    <p> <Link to="/signin">INICIAR SESION</Link></p>
-    <p> <Link to="/signup">REGISTRATE</Link></p>
+
+    <Breadcrumb>
+    <BreadcrumbItem><a  href="/signin">INICIAR SESION</a></BreadcrumbItem>
+    <BreadcrumbItem><a href="/signup">REGISTRATE</a></BreadcrumbItem>
+    </Breadcrumb>
+
     </div>
   </div>  
   );

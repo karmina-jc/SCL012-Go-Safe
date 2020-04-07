@@ -1,0 +1,17 @@
+@media screen and (max-width: 800px){ 
+
+    .grayPlace{
+      background-color: #F2F2F2;
+      margin-top: 7%;
+      text-align: center;
+      display: flex;
+      width: inherit;
+    }
+  
+    .rectangleG
+    {
+     margin-top: 0;
+    }
+  
+   
+  }

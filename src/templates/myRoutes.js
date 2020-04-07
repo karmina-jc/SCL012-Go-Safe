@@ -16,7 +16,8 @@ import './myRoutes.css'
 function MyRoutes() {
   return (
   
-  
+
+
   <div className="homeRoutes"> 
     <div className="headRoute">	
         <img   src={logoPequeño} alt="logoPequeño"></img>
@@ -37,7 +38,9 @@ function MyRoutes() {
   		</div>
   		<div id="motherH"  className="Place1">
       		<img className="imgWork" src={motherhIcon} alt=" Casa mamá"></img>  
-      		<p> Casa  mamá</p>
+
+      		<p> Casa mamá</p>
+
   		</div>
          
    </div>    

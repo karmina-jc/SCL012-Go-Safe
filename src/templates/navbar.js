@@ -5,7 +5,9 @@ import './navbar.css'
 const Navbar = () => {
   return (
         
-    <img src={bar} alt="logoPeque" className="logoPeque"></img>
+
+    <img src={ bar } alt="logoPeque" className="logoPeque"></img>
+
     
   );
 };

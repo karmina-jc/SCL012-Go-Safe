@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import Navbar from '../templates/navbar';
+import { Button } from 'reactstrap';
+
 //import facebook from '../pictures/facebook.svg';
 import './signUp.css';
 import 'firebase/auth';
@@ -16,21 +18,26 @@ function SignUp(props) {
   const submit = async ()=>{
     await  firebase.auth().createUserWithEmailAndPassword(email,password);
   } 
-  
-  
+
   return (
   <div className="signUpPage">
     <Navbar/>
       <div className="orderPlace" >
         
-        <label htmlFor="email"> Correo Electrónico</label>
-        <input type="email" id="email" onChange={ (ev)=> setEmail(ev.target.value) }   />
+
+        <label className="email"  htmlFor="email"> Correo Electrónico</label>
+        <input className="email2" type="email" id="email" onChange={ (ev)=> setEmail(ev.target.value) }   />
         <label htmlFor="password">Contraseña</label>
-        <input type="password" id="password" onChange={ (ev)=> setPassword(ev.target.value) } />
+        <input className="email2" type="password" id="password" onChange={ (ev)=> setPassword(ev.target.value) } />
+         
               
       
     <p className="conditions"> AL REGISTRARTE, ESTAS DE ACUERDO CON LOS TÉRMINOS Y CONDICIONES </p>
-    <button  className="btn btn-success"onClick={submit}><Link to="/signin">Registrarse</Link></button> 
+    <div className="boton col-xs-2"> 
+    <Button className="buttonGreen" onClick={submit}><Link to="/signin">Registrarse</Link></Button> 
+    </div>
+    
+
     </div>
   </div>
   )
